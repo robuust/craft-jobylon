@@ -47,7 +47,7 @@ class Applications extends Component
      */
     public function createApplication(array $values): array
     {
-        $request = $this->client->post('applications', [
+        $request = $this->client->post('applications/', [
             'multipart' => array_map(function ($key, $value) {
                 return [
                     'name' => $key,
