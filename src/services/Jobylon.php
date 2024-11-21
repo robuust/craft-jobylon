@@ -134,8 +134,8 @@ class Jobylon extends Component
         $layers = [];
         $layerFields = array_filter($job, fn ($key) => strpos($key, 'layers_') === 0, ARRAY_FILTER_USE_KEY);
         foreach ($layerFields as $key => $layer) {
-            foreach ($layer['layer'] as $value) {
-                $layers[] = ['name' => $key, 'text' => $value['text']];
+            foreach ($layer as $value) {
+                $layers[] = ['layer' => str_replace('layers_', '', $key), 'text' => $value['layer']['text']];
             }
         }
         $entry->{$this->settings->layersField} = $layers;
