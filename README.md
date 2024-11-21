@@ -29,8 +29,6 @@ Create a file called `jobylon.php` in you Craft config folder with the following
 <?php
 
 return [
-    // General
-    'hash' => '', // YOUR HASH
     // Section
     'sectionHandle' => 'YOUR_JOB_SECTION_HANDLE',
     'entryTypeHandle' => 'YOUR_JOB_ENTRY_TYPE_HANDLE',

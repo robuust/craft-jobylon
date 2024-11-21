@@ -12,11 +12,6 @@ class Settings extends Model
     /**
      * @var string
      */
-    public $hash;
-
-    /**
-     * @var string
-     */
     public $sectionHandle;
 
     /**
@@ -85,7 +80,7 @@ class Settings extends Model
     public function rules(): array
     {
         return [
-            [['hash', 'sectionHandle', 'entryTypeHandle', 'jobIdField', 'benefitsField', 'contactField', 'departmentsField', 'descriptionField', 'locationsField', 'createdField', 'modifiedField', 'salaryField', 'skillsField', 'layersField'], 'required'],
+            [['sectionHandle', 'entryTypeHandle', 'jobIdField', 'benefitsField', 'contactField', 'departmentsField', 'descriptionField', 'locationsField', 'createdField', 'modifiedField', 'salaryField', 'skillsField', 'layersField'], 'required'],
         ];
     }
 }
