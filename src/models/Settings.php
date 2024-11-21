@@ -12,6 +12,26 @@ class Settings extends Model
     /**
      * @var string
      */
+    public $host;
+
+    /**
+     * @var string
+     */
+    public $apiVersion = 'p1';
+
+    /**
+     * @var string
+     */
+    public $appId;
+
+    /**
+     * @var string
+     */
+    public $appKey;
+
+    /**
+     * @var string
+     */
     public $sectionHandle;
 
     /**
@@ -80,7 +100,7 @@ class Settings extends Model
     public function rules(): array
     {
         return [
-            [['sectionHandle', 'entryTypeHandle', 'jobIdField', 'benefitsField', 'contactField', 'departmentsField', 'descriptionField', 'locationsField', 'createdField', 'modifiedField', 'salaryField', 'skillsField', 'layersField'], 'required'],
+            [['host', 'appId', 'appKey', 'sectionHandle', 'entryTypeHandle', 'jobIdField', 'benefitsField', 'contactField', 'departmentsField', 'descriptionField', 'locationsField', 'createdField', 'modifiedField', 'salaryField', 'skillsField', 'layersField'], 'required'],
         ];
     }
 }

@@ -6,13 +6,14 @@ use Craft;
 use craft\elements\Entry;
 use craft\helpers\Json;
 use DateTime;
+use GuzzleHttp\Client;
 use robuust\jobylon\Plugin;
 use yii\base\Component;
 
 /**
- * Jobylon service.
+ * Jobs service.
  */
-class Jobylon extends Component
+class Jobs extends Component
 {
     /**
      * @var string
@@ -40,11 +41,19 @@ class Jobylon extends Component
     protected $entryType;
 
     /**
+     * @var Client
+     */
+    protected Client $client;
+
+    /**
      * Initialize service.
      */
     public function init()
     {
         $this->settings = Plugin::getInstance()->getSettings();
+        $this->client = Craft::createGuzzleClient([
+            'base_uri' => static::URL,
+        ]);
         $this->sections = Craft::$app->getSections();
 
         $this->section = $this->sections->getSectionByHandle($this->settings->sectionHandle);
@@ -61,9 +70,7 @@ class Jobylon extends Component
     public function getJobs(string $hash): array
     {
         // Get jobs
-        $request = Craft::createGuzzleClient([
-            'base_uri' => static::URL,
-        ])->get($hash, [
+        $request = $this->client->get($hash, [
             'query' => [
                 'format' => 'json',
             ],

@@ -29,6 +29,11 @@ Create a file called `jobylon.php` in you Craft config folder with the following
 <?php
 
 return [
+    // General
+    'host' => 'https://staging.jobylon.com', // OR production url
+    'apiVersion' => 'p1',
+    'appId' => 'YOUR_APP_ID',
+    'appKey' => 'YOUR_APP_KEY',
     // Section
     'sectionHandle' => 'YOUR_JOB_SECTION_HANDLE',
     'entryTypeHandle' => 'YOUR_JOB_ENTRY_TYPE_HANDLE',
@@ -48,7 +53,7 @@ return [
 
 ```
 
-## Usage
+## CLI Usage
 
 Run `craft jobylon/import HASH` on the CLI to import the newest items.
 

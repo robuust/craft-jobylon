@@ -19,13 +19,13 @@ class ImportController extends Controller
      */
     public function actionIndex(string $hash): int
     {
-        $jobs = $this->module->jobylon->getJobs($hash);
+        $jobs = $this->module->jobs->getJobs($hash);
         $this->stdout('jobs found: '.count($jobs)."\n");
 
         // Import jobs
         $count = 0;
         foreach ($jobs as $job) {
-            if ($this->module->jobylon->importJob($job)) {
+            if ($this->module->jobs->importJob($job)) {
                 ++$count;
             }
         }
@@ -45,17 +45,17 @@ class ImportController extends Controller
     {
         $jobs = [];
         foreach ($hashes as $hash) {
-            $jobs = array_merge($jobs, $this->module->jobylon->getJobs($hash));
+            $jobs = array_merge($jobs, $this->module->jobs->getJobs($hash));
         }
         $this->stdout('jobs found: '.count($hashes)."\n");
 
-        $entries = $this->module->jobylon->getEntries();
+        $entries = $this->module->jobs->getEntries();
         $this->stdout('entries found: '.count($entries)."\n");
 
         // Cleanup jobs
         $count = 0;
         foreach ($entries as $entry) {
-            if ($this->module->jobylon->cleanupJob($entry, $jobs)) {
+            if ($this->module->jobs->cleanupJob($entry, $jobs)) {
                 ++$count;
             }
         }

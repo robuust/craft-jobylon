@@ -3,7 +3,8 @@
 namespace robuust\jobylon;
 
 use robuust\jobylon\models\Settings;
-use robuust\jobylon\services\Jobylon;
+use robuust\jobylon\services\Applications;
+use robuust\jobylon\services\Jobs;
 
 /**
  * Jobylon plugin.
@@ -19,7 +20,8 @@ class Plugin extends \craft\base\Plugin
 
         // Register services
         $this->setComponents([
-            'jobylon' => Jobylon::class,
+            'applications' => Applications::class,
+            'jobs' => Jobs::class,
         ]);
     }
 
