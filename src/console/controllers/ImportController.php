@@ -55,7 +55,7 @@ class ImportController extends Controller
         // Cleanup jobs
         $count = 0;
         foreach ($entries as $entry) {
-            if ($this->module->jobylon->cleanupJob($entry, $hashes)) {
+            if ($this->module->jobylon->cleanupJob($entry, $jobs)) {
                 ++$count;
             }
         }
