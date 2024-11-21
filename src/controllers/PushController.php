@@ -28,6 +28,10 @@ class PushController extends Controller
 
         $values = $this->request->getBodyParams();
 
+        // Remove unnecessary fields for proxying
+        $csrf = Craft::$app->getConfig()->getGeneral()->csrfTokenName;
+        unset($values['action'], $values[$csrf]);
+
         $error = null;
         try {
             $result = $this->module->applications->createApplication($values);
