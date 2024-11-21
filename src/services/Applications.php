@@ -5,8 +5,10 @@ namespace robuust\jobylon\services;
 use Craft;
 use craft\helpers\Json;
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7;
 use robuust\jobylon\Plugin;
 use yii\base\Component;
+use yii\web\UploadedFile;
 
 /**
  * Applications service.
@@ -47,8 +49,20 @@ class Applications extends Component
      */
     public function createApplication(array $values): array
     {
+        // Don't send empty values
+        $values = array_filter($values);
+
+        // Send application
         $request = $this->client->post('applications/', [
             'multipart' => array_map(function ($key, $value) {
+                if ($value instanceof UploadedFile) {
+                    return [
+                        'name' => $key,
+                        'contents' => Psr7\Utils::tryFopen($value->tempName, 'r'),
+                        'filename' => $value->name,
+                    ];
+                }
+
                 return [
                     'name' => $key,
                     'contents' => $value,

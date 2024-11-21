@@ -5,6 +5,7 @@ namespace robuust\jobylon\controllers;
 use Craft;
 use craft\web\Controller;
 use craft\web\Response;
+use craft\web\UploadedFile;
 use Exception;
 
 /**
@@ -31,6 +32,12 @@ class PushController extends Controller
         // Remove unnecessary fields for proxying
         $csrf = Craft::$app->getConfig()->getGeneral()->csrfTokenName;
         unset($values['action'], $values[$csrf]);
+
+        // Add files to values
+        $files = ['cv', 'cover_letter', 'other_1', 'other_2', 'other_3', 'other_4', 'other_5'];
+        foreach ($files as $file) {
+            $values[$file] = UploadedFile::getInstanceByName($file);
+        }
 
         $error = null;
         try {
