@@ -117,6 +117,7 @@ class Jobs extends Component
             $entry->sectionId = $this->section->id;
             $entry->typeId = $this->entryType->id;
             $entry->enabled = true;
+            $entry->postDate = $job['from_date'] ? new DateTime($job['from_date']) : null;
             $entry->expiryDate = $job['to_date'] ? new DateTime($job['to_date']) : null;
             $entry->{$this->settings->jobIdField} = $job['id'];
         }
