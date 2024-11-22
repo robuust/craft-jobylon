@@ -14,12 +14,13 @@ class ImportController extends Controller
      * Import action.
      *
      * @param string $hash
+     * @param string $environment
      *
      * @return int
      */
-    public function actionIndex(string $hash): int
+    public function actionIndex(string $hash, string $environment = 'feed'): int
     {
-        $jobs = $this->module->jobs->getJobs($hash);
+        $jobs = $this->module->jobs->getJobs($hash, $environment);
         $this->stdout('jobs found: '.count($jobs)."\n");
 
         // Import jobs

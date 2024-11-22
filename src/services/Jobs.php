@@ -16,11 +16,6 @@ use yii\base\Component;
 class Jobs extends Component
 {
     /**
-     * @var string
-     */
-    public const URL = 'https://feed.jobylon.com/feeds/';
-
-    /**
      * @var Settings
      */
     protected $settings;
@@ -51,9 +46,7 @@ class Jobs extends Component
     public function init()
     {
         $this->settings = Plugin::getInstance()->getSettings();
-        $this->client = Craft::createGuzzleClient([
-            'base_uri' => static::URL,
-        ]);
+        $this->client = Craft::createGuzzleClient();
         $this->sections = Craft::$app->getSections();
 
         $this->section = $this->sections->getSectionByHandle($this->settings->sectionHandle);
@@ -64,13 +57,14 @@ class Jobs extends Component
      * Get jobylon jobs.
      *
      * @param string $hash
+     * @param string $environment
      *
      * @return array
      */
-    public function getJobs(string $hash): array
+    public function getJobs(string $hash, string $environment = 'feed'): array
     {
         // Get jobs
-        $request = $this->client->get($hash, [
+        $request = $this->client->get('https://'.$environment.'.jobylon.com/feeds/'.$hash, [
             'query' => [
                 'format' => 'json',
             ],
