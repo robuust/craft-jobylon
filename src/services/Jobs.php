@@ -3,9 +3,13 @@
 namespace robuust\jobylon\services;
 
 use Craft;
+use craft\elements\Asset;
 use craft\elements\Entry;
+use craft\helpers\Assets as AssetsHelper;
+use craft\helpers\FileHelper;
 use craft\helpers\Json;
 use DateTime;
+use Exception;
 use GuzzleHttp\Client;
 use robuust\jobylon\Plugin;
 use yii\base\Component;
@@ -124,7 +128,9 @@ class Jobs extends Component
 
         $entry->title = $job['title'];
         $entry->{$this->settings->benefitsField} = $job['benefits'];
+        $entry->{$this->settings->imageField} = self::getAttachment($this->settings->imageField, $job['company']['cover']);
         $entry->{$this->settings->contactField} = [$job['contact']];
+        $entry->{$this->settings->photoField} = self::getAttachment($this->settings->photoField, $job['contact']['photo']);
         $entry->{$this->settings->departmentsField} = array_map(fn ($department) => ['name' => $department['department']['name']], $job['departments']);
         $entry->{$this->settings->descriptionField} = $job['descr'];
         $entry->{$this->settings->locationsField} = array_map(fn ($location) => ['city' => $location['location']['city'], 'area' => $location['location']['area_1']], $job['locations']);
@@ -143,6 +149,53 @@ class Jobs extends Component
         $entry->{$this->settings->layersField} = $layers;
 
         return Craft::$app->getElements()->saveElement($entry);
+    }
+
+    /**
+     * Get attachment.
+     *
+     * @param string      $fieldHandle
+     * @param string|null $url
+     *
+     * @return array
+     */
+    protected static function getAttachment(string $fieldHandle, ?string $url): array
+    {
+        $name = basename(parse_url($url, PHP_URL_PATH));
+        $content = @file_get_contents($url);
+        if ($content) {
+            // Temporarily save file to disk
+            $tempPath = AssetsHelper::tempFilePath($name);
+            try {
+                FileHelper::writeToFile($tempPath, $content);
+            } catch (Exception $e) {
+                Craft::warning(sprintf('Error writing asset for %s. Message: %s', $name, $e->getMessage()));
+            }
+
+            // Get upload folder
+            $field = Craft::$app->getFields()->getFieldByHandle($fieldHandle);
+            $uploadFolderId = $field->resolveDynamicPathToFolderId();
+            $uploadFolder = Craft::$app->getAssets()->getFolderById($uploadFolderId);
+
+            // Create new asset
+            $asset = new Asset();
+            $asset->tempFilePath = $tempPath;
+            $asset->setFilename($name);
+            $asset->newFolderId = $uploadFolderId;
+            $asset->setVolumeId($uploadFolder->volumeId);
+            $asset->avoidFilenameConflicts = true;
+            $asset->setScenario(Asset::SCENARIO_CREATE);
+
+            try {
+                if (Craft::$app->getElements()->saveElement($asset)) {
+                    return [$asset->id];
+                }
+            } catch (Exception $e) {
+                // do nothing
+            }
+        }
+
+        return [];
     }
 
     /**

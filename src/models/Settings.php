@@ -3,6 +3,8 @@
 namespace robuust\jobylon\models;
 
 use craft\base\Model;
+use craft\elements\Asset;
+use DateTime;
 
 /**
  * Settings model.
@@ -50,9 +52,19 @@ class Settings extends Model
     public $benefitsField;
 
     /**
+     * @var Asset
+     */
+    public $imageField;
+
+    /**
      * @var array
      */
     public $contactField;
+
+    /**
+     * @var Asset
+     */
+    public $photoField;
 
     /**
      * @var array
@@ -99,8 +111,25 @@ class Settings extends Model
      */
     public function rules(): array
     {
-        return [
-            [['host', 'appId', 'appKey', 'sectionHandle', 'entryTypeHandle', 'jobIdField', 'benefitsField', 'contactField', 'departmentsField', 'descriptionField', 'locationsField', 'createdField', 'modifiedField', 'salaryField', 'skillsField', 'layersField'], 'required'],
-        ];
+        return [[[
+            'host',
+            'appId',
+            'appKey',
+            'sectionHandle',
+            'entryTypeHandle',
+            'jobIdField',
+            'benefitsField',
+            'imageField',
+            'contactField',
+            'photoField',
+            'departmentsField',
+            'descriptionField',
+            'locationsField',
+            'createdField',
+            'modifiedField',
+            'salaryField',
+            'skillsField',
+            'layersField',
+        ], 'required']];
     }
 }

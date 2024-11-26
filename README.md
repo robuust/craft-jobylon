@@ -40,7 +40,9 @@ return [
     // Fields
     'jobIdField' => 'YOUR_JOB_ID_FIELD', // Number
     'benefitsField' => 'YOUR_JOB_BENEFITS_FIELD', // Table (1 PlainText text column)
-    'contactField' => 'YOUR_JOB_CONTACT_FIELD', // Table (1 PlainText name column, 1 Email email column, 1 PlainText phone column, 1 URL photo column)
+    'imageField' => 'YOUR_JOB_IMAGE_FIELD', // Assets
+    'contactField' => 'YOUR_JOB_CONTACT_FIELD', // Table (1 PlainText name column, 1 Email email column, 1 PlainText phone column)
+    'photoField' => 'YOUR_JOB_PHOTO_FIELD', // Assets
     'departmentsField' => 'YOUR_JOB_DEPARTMENTS_FIELD', // Table (1 PlainText name column)
     'descriptionField' => 'YOUR_JOB_DESCRIPTION_FIELD', // Rich Text
     'locationsField' => 'YOUR_JOB_LOCATIONS_FIELD', // Table (1 PlainText city column, 1 PlainText area column)
