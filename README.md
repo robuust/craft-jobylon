@@ -60,3 +60,39 @@ return [
 Run `craft jobylon/import HASH` on the CLI to import the newest items.
 
 Run `craft jobylon/import/cleanup HASH` on the CLI to clean up old items.
+
+## Sample Application form
+
+```twig
+<form method="post" enctype="multipart/form-data">
+    {{ csrfInput() }}
+    {{ actionInput('jobylon/push/application') }}
+    {{ hiddenInput('job_id', entry.jobId) }}
+    {{ hiddenInput('source_type', 'applied') }}
+    <input type="hidden" name="source_json" value='{"partner_name": "best-source"}' />
+
+    {% if error is defined %}
+        <p>{{ error }}</p>
+    {% endif %}
+
+    <label for="first_name">Voornaam</label>
+    <input id="first_name" type="text" name="first_name" required />
+
+    <label for="last_name">Achternaam</label>
+    <input id="last_name" type="text" name="last_name" required />
+
+    <label for="email">E-mailadres</label>
+    <input id="email" type="email" name="email" required />
+
+    <label for="phone">Telefoonnummer</label>
+    <input id="phone" type="tel" name="phone" required />
+
+    <label for="cv">CV</label>
+    <input id="cv" type="file" name="cv" />
+
+    <label for="motivation">Motivatie</label>
+    <textarea id="motivation" name="message" required></textarea>
+
+    <button type="submit">Versturen</button>
+</form>
+```
