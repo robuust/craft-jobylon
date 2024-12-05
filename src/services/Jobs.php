@@ -192,6 +192,7 @@ class Jobs extends Component
             $asset->newFolderId = $uploadFolderId;
             $asset->setVolumeId($uploadFolder->volumeId);
             $asset->avoidFilenameConflicts = true;
+            $asset->sanitizeOnUpload = false;
             $asset->setScenario(Asset::SCENARIO_CREATE);
 
             try {
