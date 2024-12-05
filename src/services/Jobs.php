@@ -128,9 +128,9 @@ class Jobs extends Component
 
         $entry->title = $job['title'];
         $entry->{$this->settings->benefitsField} = $job['benefits'];
-        $entry->{$this->settings->imageField} = self::getAttachment($this->settings->imageField, $job['company']['cover']);
+        $entry->{$this->settings->imageField} = self::getAttachment($entry, $this->settings->imageField, $job['company']['cover']);
         $entry->{$this->settings->contactField} = [$job['contact']];
-        $entry->{$this->settings->photoField} = self::getAttachment($this->settings->photoField, $job['contact']['photo']);
+        $entry->{$this->settings->photoField} = self::getAttachment($entry, $this->settings->photoField, $job['contact']['photo']);
         $entry->{$this->settings->departmentsField} = array_map(fn ($department) => ['name' => $department['department']['name']], $job['departments']);
         $entry->{$this->settings->descriptionField} = $job['descr'];
         $entry->{$this->settings->locationsField} = array_map(fn ($location) => ['city' => $location['location']['city'], 'area' => $location['location']['area_1']], $job['locations']);
@@ -154,16 +154,24 @@ class Jobs extends Component
     /**
      * Get attachment.
      *
+     * @param Entry       $entry
      * @param string      $fieldHandle
      * @param string|null $url
      *
      * @return array
      */
-    protected static function getAttachment(string $fieldHandle, ?string $url): array
+    protected static function getAttachment(Entry $entry, string $fieldHandle, ?string $url): array
     {
         $name = basename(parse_url($url, PHP_URL_PATH));
         $content = @file_get_contents($url);
         if ($content) {
+            // Get existing asset
+            /** @var Asset */
+            $currentAsset = $entry->{$fieldHandle}->one();
+            if ($currentAsset && $currentAsset->getContents() == $content) {
+                return [$currentAsset->id];
+            }
+
             // Temporarily save file to disk
             $tempPath = AssetsHelper::tempFilePath($name);
             try {
