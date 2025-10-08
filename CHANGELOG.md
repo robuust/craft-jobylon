@@ -1,3 +1,7 @@
+## 2.0.0 - 2025-10-08
+### Added
+- Support for Craft CMS 5
+
 ## 1.1.2 - 2024-12-05
 ### Fixed
 - Don't sanitize assets when importing
