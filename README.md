@@ -5,7 +5,7 @@ Plugin that allows you to import Jobylon entries.
 
 ## Requirements
 
-This plugin requires Craft CMS 4.0.0 or later.
+This plugin requires Craft CMS 5.0.0 or later.
 
 ## Installation
 
