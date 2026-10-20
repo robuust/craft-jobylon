@@ -93,6 +93,12 @@ Run `craft jobylon/import/cleanup HASH` on the CLI to clean up old items.
     <label for="motivation">Motivatie</label>
     <textarea id="motivation" name="message" required></textarea>
 
+    <label for="answers">Hoe heb je over deze vacature gehoord?</label>
+    <select id="answers" name="answers">
+        <option value='{"question_id": 1234, "text": ["LinkedIn"]}'>LinkedIn</option>
+        ...
+    </select>
+
     <button type="submit">Versturen</button>
 </form>
 ```

@@ -1,3 +1,10 @@
+## 2.0.1 - 2026-10-20
+### Added
+- Example of submitting answers to application questions
+
+### Fixed
+- Log errors when submitting applications to Jobylon
+
 ## 2.0.0 - 2025-10-08
 ### Added
 - Support for Craft CMS 5

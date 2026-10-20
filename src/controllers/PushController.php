@@ -43,6 +43,7 @@ class PushController extends Controller
         try {
             $result = $this->module->applications->createApplication($values);
         } catch (Exception $e) {
+            Craft::error($e, __METHOD__);
             $error = $e->getMessage();
         }
 
